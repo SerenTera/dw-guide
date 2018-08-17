@@ -1,0 +1,13 @@
+{
+	"moduleVersion": "1.0.0",
+	"enabled":true,
+	"notifier":true,
+	"messager":true,
+	"toParty":false,
+	"textcolor":"#ff1493",
+	"textcolorred":"#b90041",
+	"textcolorblue":"#55a4fb",
+	"notifier_type":45,
+	"MESSAGE_ODD_OR_EVEN":false
+}
+	
