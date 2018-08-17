@@ -53,6 +53,7 @@ const dwZone=9066, 		//Zone ID of Demon's wheel
 			1312: 'OUT OUT OUT then IN',
 			1313: 'OUT OUT OUT then IN',
 			1113: 'LASERRRRR~ Iframe',
+			2113: 'LASERRRRR~ Iframe',
 			1223: 'Double Puddle!'
 		}
 	},
@@ -65,12 +66,12 @@ const dwZone=9066, 		//Zone ID of Demon's wheel
 	},
 
 	balloonMsg ={
-		466050:'Hit Dice: WHITE or BLUE',
-		466051:'Hit Dice: RED or BLUE',
-		466052:'Hit Dice: WHITE or RED',
-		466054:'Hit Dice: RED only',
-		466055:'Hit Dice: WHITE only',
-		466056:'Hit Dice: BLUE only'
+		466050:'Dice: WHITE or BLUE',
+		466051:'Dice: RED or BLUE',
+		466052:'Dice: WHITE or RED',
+		466054:'Dice: RED only',
+		466055:'Dice: WHITE only',
+		466056:'Dice: BLUE only'
 	}
 		
 			
@@ -92,6 +93,7 @@ module.exports = function bossnotify(dispatch) {
 		isEven=true,
 		isBaldersnatch=false,
 		bossIndex=0,
+		currentBall = 0,
 		enabled,
 		notifier,
 		messager,
@@ -175,19 +177,24 @@ module.exports = function bossnotify(dispatch) {
 			if(!event.gameId.equals(bossid) || event.stage!==0 || event.skill.huntingZoneId !== dwHuntingZone) return
 			
 			if(isBaldersnatch && dwBAoeId[event.skill.id]) { //Baldersnatch
-				dwcount=dwcount+dwBAoeId[event.skill.id]
+				dwcount += dwBAoeId[event.skill.id]
 				if(!MESSAGE_ODD_OR_EVEN) oddeven(dwcount);
 				return
 			}				
 			
 			if(skills[bossIndex][event.skill.id]) sendGeneral(skills[bossIndex][event.skill.id])
+				
+			else if(!isBaldersnatch && event.skill.id === 1303) sendGeneral(balloonMsg[currentBall])
 		}
 	})
 	
 	hook('S_QUEST_BALLOON', 1, event => {
 		if(enabled && IN_DUNGEON && !isBaldersnatch) { 
 			let balloonId = parseInt(event.message.replace(/\D/g,''),10)
-			if(balloonMsg[balloonId]) sendGeneral(balloonMsg[balloonId])
+			if(balloonMsg[balloonId]) {
+				sendGeneral(balloonMsg[balloonId])
+				currentBall = balloonId
+			}
 		}
 	})
 	
@@ -231,13 +238,13 @@ module.exports = function bossnotify(dispatch) {
 	
 	function oddeven(num) {
 		if(num % 2 == 0) { //is Even
-			if(messager) message('Count:'+num+' (even)',textcolorblue)
+			if(messager) message(`Count:${num} (even)`,textcolorblue)
 			if(notifier) notice(num,textcolorblue)
 			if(toParty)	messageParty(num)
 		}
 		
 		else {
-			if(messager) message('Count:'+num+' (odd)',textcolorred)
+			if(messager) message(`Count:${num} (odd)`,textcolorred)
 			if(notifier) notice(num,textcolorred)
 			if(toParty)	messageParty(num)
 		}
@@ -286,6 +293,7 @@ module.exports = function bossnotify(dispatch) {
 				({enabled,notifier,messager,textcolor,textcolorred,textcolorblue,notifier_type,MESSAGE_ODD_OR_EVEN,toParty} = JSON.parse(data))
 		})
 	}
+
 }
 	
 	
