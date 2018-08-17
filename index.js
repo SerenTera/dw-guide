@@ -1,5 +1,5 @@
 //Demon Wheel Guide - the super fucky mashed up together module.
-//PRIVATE MODULE: DO NOT SHARE WITH ANYONE
+
 
 /*
  >>> Config.json Help
