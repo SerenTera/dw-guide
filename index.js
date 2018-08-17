@@ -1,5 +1,5 @@
 //Demon Wheel Guide - the super fucky mashed up together module.
-
+//NON PRIVATE MODULE: DO SHARE WITH ANYONE
 
 /*
  >>> Config.json Help
@@ -244,6 +244,7 @@ module.exports = function bossnotify(dispatch) {
 	}
 	
 	function notice(msg,textColor) {
+		if(textColor === undefined) textColor = textcolor
 		dispatch.toClient('S_DUNGEON_EVENT_MESSAGE', 1, {
 			unk1: notifier_type,
 			message: `</FONT><FONT COLOR="${textColor}">${msg}`
@@ -260,8 +261,6 @@ module.exports = function bossnotify(dispatch) {
 	}
 	
 	function messageParty(msg) {
-		if(textColor === undefined) textColor = textcolor
-		
 		dispatch.send('C_CHAT', 1, {
 			channel: 21, 
 			message: msg
