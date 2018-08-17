@@ -10,7 +10,7 @@ dwmessage - toggle textbox messages
 
 dwnotify - toggle screen notification
 
-dwparty - toggle whether to send number of circles for baldersnatch mech to party notice or not
+dwparty - toggle whether to send number of circles for baldersnatch mech to party notice or not (do not blame me if u get banned for this kinda shiet, its at ur own risk, this is default off.)
 
 ## Config
 ```
