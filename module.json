@@ -1,0 +1,7 @@
+{
+	"disableAutoUpdate": false,
+    "options": {
+        "niceName": "DW Guide"
+    },
+    "servers": ["https://raw.githubusercontent.com/SerenTera/dw-guide/master/"]
+}

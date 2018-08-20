@@ -136,7 +136,7 @@ module.exports = function bossnotify(dispatch) {
 	
 	
 /////Dispatches	
-	dispatch.hook('S_LOAD_TOPO', 1, event => {
+	dispatch.hook('S_LOAD_TOPO', 3, event => {
 		if(event.zone===9066) {
 			IN_DUNGEON=true
 			if(hooks.length === 0) initHooks(); //Incase same topo and already hooks
