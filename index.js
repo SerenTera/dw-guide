@@ -77,14 +77,12 @@ const dwZone=9066, 		//Zone ID of Demon's wheel
 			
 		
 			
-const Command = require('command'),
-	  path = require('path'),
+const path = require('path'),
 	  fs = require('fs')
 
 
 
-module.exports = function bossnotify(dispatch) {
-	const command = Command(dispatch)
+module.exports = function bossnotify(mod) {
 	
 	let bossid=0,
 		hooks = [],
@@ -106,41 +104,45 @@ module.exports = function bossnotify(dispatch) {
 		
 	loadSettings()
 ////////Commands:		
-	command.add('dwtoggle',() => {
-		enabled=!enabled
-		command.message(enabled ? '(DW Guide) Enabled' : '(DW Guide) Disabled')
-	})
+	mod.command.add('dw', {
+		$none() {
+			enabled=!enabled
+			mod.command.message(enabled ? '(DW Guide) Enabled' : '(DW Guide) Disabled')
+		},
 		
-	command.add('dwboss',() => {
-		isBaldersnatch=!isBaldersnatch
-		command.message(isBaldersnatch ? '(DW Guide) Enabled Baldersnatch' : '(DW Guide) Enabled Demoros')
-	})
+		$default() {
+			mod.command.message('Wrong command. Use dw OR dw [boss|message|notify|party]')
+		},
 		
+		boss() {
+			isBaldersnatch=!isBaldersnatch
+			mod.command.message(isBaldersnatch ? '(DW Guide) Enabled Baldersnatch' : '(DW Guide) Enabled Demoros')
+		},
 		
+		message() {
+			messager=!messager
+			mod.command.message(messager ? '(DW Guide) Messager Enabled' : '(DW Guide) Messager Disabled')
+		},
 	
-	command.add('dwmessage',() => {
-		messager=!messager
-		command.message(messager ? '(DW Guide) Messager Enabled' : '(DW Guide) Messager Disabled')
-	})
+		notify() {
+			notifier=!notifier
+			mod.command.message(notifier ? '(DW Guide) Notifier Enabled' : '(DW Guide) Notifier Disabled')
+		},
 	
-	command.add('dwnotify',() => {
-		notifier=!notifier
-		command.message(notifier ? '(DW Guide) Notifier Enabled' : '(DW Guide) Notifier Disabled')
-	})
-	
-	command.add('dwparty',() => {
-		toParty = !toParty
-		command.message(toParty ? '(DW Guide) Party number sending Enabled' : '(DW Guide) Party number sending Disabled')
+		party() {
+			toParty = !toParty
+			mod.command.message(toParty ? '(DW Guide) Party number sending Enabled' : '(DW Guide) Party number sending Disabled')
+		}
 	})
 	
 	
 	
 /////Dispatches	
-	dispatch.hook('S_LOAD_TOPO', 3, event => {
+	mod.hook('S_LOAD_TOPO', 3, event => {
 		if(event.zone===9066) {
 			IN_DUNGEON=true
 			if(hooks.length === 0) initHooks(); //Incase same topo and already hooks
-			command.message('(DW Guide) Entered Demon Wheel')
+			mod.command.message('(DW Guide) Entered Demon Wheel')
 		}
 		else {
 			unload()
@@ -160,19 +162,19 @@ module.exports = function bossnotify(dispatch) {
 				isBaldersnatch = true
 				dwcount = 0
 				bossIndex = 1
-				command.message('(DW Guide) Identified Baldersnatch')
+				mod.command.message('(DW Guide) Identified Baldersnatch')
 			}
 			
 			else if(event.huntingZoneId == dwHuntingZone && event.templateId == dwDId) {
 				bossid = event.id
 				isBaldersnatch = false
 				bossIndex = 2
-				command.message('(DW Guide) Identified Demoros')
+				mod.command.message('(DW Guide) Identified Demoros')
 			}
 		}
 	})
 	
-	hook('S_ACTION_STAGE', dispatch.base.majorPatchVersion >= 74 ? 7 : 6 , event => {
+	hook('S_ACTION_STAGE', mod.majorPatchVersion >= 74 ? 7 : 6 , event => {
 		if(enabled && IN_DUNGEON) {
 			if(!event.gameId.equals(bossid) || event.stage!==0 || event.skill.huntingZoneId !== dwHuntingZone) return
 			
@@ -252,7 +254,7 @@ module.exports = function bossnotify(dispatch) {
 	
 	function notice(msg,textColor) {
 		if(textColor === undefined) textColor = textcolor
-		dispatch.toClient('S_DUNGEON_EVENT_MESSAGE', 1, {
+		mod.send('S_DUNGEON_EVENT_MESSAGE', 1, {
 			unk1: notifier_type,
 			message: `</FONT><FONT COLOR="${textColor}">${msg}`
 		})	
@@ -261,14 +263,14 @@ module.exports = function bossnotify(dispatch) {
 	function message(msg,textColor) {
 		if(textColor === undefined) textColor = textcolor
 		
-		dispatch.toClient('S_CHAT', 1, {
+		mod.send('S_CHAT', 1, {
 			channel: 24,
 			message:`</FONT><FONT COLOR="${textColor}">${msg}`
 		})
 	}
 	
 	function messageParty(msg) {
-		dispatch.send('C_CHAT', 1, {
+		mod.send('C_CHAT', 1, {
 			channel: 21, 
 			message: msg
 		})
@@ -276,14 +278,14 @@ module.exports = function bossnotify(dispatch) {
 	
 	function unload() {
 		if(hooks.length) {
-			for(let h of hooks) dispatch.unhook(h)
+			for(let h of hooks) mod.unhook(h)
 
 			hooks = []
 		}
 	}
 
 	function hook() {
-		hooks.push(dispatch.hook(...arguments))
+		hooks.push(mod.hook(...arguments))
 	}
 	
 	function loadSettings() {

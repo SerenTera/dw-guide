@@ -1,20 +1,16 @@
 {
     "files": {
         "config.json": {
-			"overwrite":false,
-			"hash": "8d317c35881f76b5eef02f8250c3702e5e0494ddbe9d1833d779ae83dd5121e3"
+			"hash":"8d317c35881f76b5eef02f8250c3702e5e0494ddbe9d1833d779ae83dd5121e3",
+			"overwrite":false
 		},
-        "index.js": "2a58f024c34aa55b3d7d03f5f1689a21671353f0d3c1da538f4cf93ffb91504b",
+        "index.js": "027a2e4e95e100c977dcb7d80d58ccfe3ba84b0dfacef246eea18912c97f4b63",
         "module.json": "f0d334c4793003fe162dc6cae3f77928c91229a1fabd8a25dba89254f7dbb55e"
     },
     "defs": {
         "S_DUNGEON_EVENT_MESSAGE": 1,
         "S_CHAT": 1,
-		"C_CHAT":1,
-        "S_LOAD_TOPO": 3,
-		"S_BOSS_GAGE_INFO": 3,
-		"S_ACTION_STAGE": [6,7],
-		"S_QUEST_BALLOON":1,
-		"S_ABNORMALITY_BEGIN":2	
+        "C_CHAT": 1,
+        "S_LOAD_TOPO": 3
     }
 }
