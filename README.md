@@ -4,13 +4,15 @@ A very old guide i made and refactored for new patch
 Something something everyone released demon wheel guide anyway so why not release my old one too XDDDDDDDD
 
 ## Commands
-dwtoggle - enable/disable
+`dw` - enable/disable module
 
-dwmessage - toggle textbox messages
+`dw boss` - Toggles whether its baldersnatch or not. Use this if the automatic detection of boss failed.
 
-dwnotify - toggle screen notification
+`dw message` - toggle textbox messages
 
-dwparty - toggle whether to send number of circles for baldersnatch mech to party notice or not (do not blame me if u get banned for this kinda shiet, its at ur own risk, this is default off.)
+`dw notify` - toggle screen notification
+
+`dw party` - toggle whether to send number of circles for baldersnatch mech to party notice or not (do not blame me if u get banned for this kinda shiet, its at ur own risk, this is default off.)
 
 ## Config
 ```
