@@ -174,7 +174,7 @@ module.exports = function bossnotify(mod) {
 		}
 	})
 	
-	hook('S_ACTION_STAGE', mod.majorPatchVersion >= 74 ? 7 : 6 , event => {
+	hook('S_ACTION_STAGE', mod.majorPatchVersion >= 75 ? 8 : 7 , event => {
 		if(enabled && IN_DUNGEON) {
 			if(!event.gameId.equals(bossid) || event.stage!==0 || event.skill.huntingZoneId !== dwHuntingZone) return
 			
@@ -254,8 +254,10 @@ module.exports = function bossnotify(mod) {
 	
 	function notice(msg,textColor) {
 		if(textColor === undefined) textColor = textcolor
-		mod.send('S_DUNGEON_EVENT_MESSAGE', 1, {
-			unk1: notifier_type,
+		mod.send('S_DUNGEON_EVENT_MESSAGE', 2, {
+			type: notifier_type,
+			chat: false,
+			channel: 0,
 			message: `</FONT><FONT COLOR="${textColor}">${msg}`
 		})	
 	}
