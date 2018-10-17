@@ -174,7 +174,7 @@ module.exports = function bossnotify(mod) {
 		}
 	})
 	
-	hook('S_ACTION_STAGE', mod.majorPatchVersion >= 75 ? 8 : 7 , event => {
+	hook('S_ACTION_STAGE', 8 , event => {
 		if(enabled && IN_DUNGEON) {
 			if(!event.gameId.equals(bossid) || event.stage!==0 || event.skill.huntingZoneId !== dwHuntingZone) return
 			
@@ -200,7 +200,7 @@ module.exports = function bossnotify(mod) {
 		}
 	})
 	
-	hook('S_ABNORMALITY_BEGIN', 2, event => {
+	hook('S_ABNORMALITY_BEGIN', 3, event => {
 		if(enabled && IN_DUNGEON && isBaldersnatch) {
 			if(abnormies[event.id]) {
 				sendGeneral(abnormies[event.id])
